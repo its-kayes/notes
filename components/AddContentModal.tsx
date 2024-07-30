@@ -7,11 +7,12 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
+import { IContentItem } from "@/app/(tabs)";
 
 interface AddContentModalProps {
   isVisible: boolean;
-  newContent: string;
-  setNewContent: (content: string) => void;
+  newContent: IContentItem;
+  setNewContent: (content: IContentItem) => void;
   handleAddContent: () => void;
   handleClose: () => void;
 }
@@ -23,6 +24,10 @@ const AddContentModal: React.FC<AddContentModalProps> = ({
   handleAddContent,
   handleClose,
 }) => {
+  const handleInputChange = (key: keyof IContentItem, value: string) => {
+    setNewContent({ ...newContent, [key]: value });
+  };
+
   return (
     <Modal
       isVisible={isVisible}
@@ -36,18 +41,33 @@ const AddContentModal: React.FC<AddContentModalProps> = ({
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Message ChatGPT"
-            value={newContent}
-            onChangeText={setNewContent}
-            multiline={true}
+            placeholder="Title"
+            value={newContent.title}
+            onChangeText={(text) => handleInputChange("title", text)}
           />
-          <TouchableOpacity
-            style={styles.modalAddButton}
-            onPress={handleAddContent}
-          >
-            <Text style={styles.modalAddButtonText}>Send</Text>
-          </TouchableOpacity>
         </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Description"
+            value={newContent.des}
+            onChangeText={(text) => handleInputChange("des", text)}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Tag"
+            value={newContent.tag}
+            onChangeText={(text) => handleInputChange("tag", text)}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.modalAddButton}
+          onPress={handleAddContent}
+        >
+          <Text style={styles.modalAddButtonText}>Send</Text>
+        </TouchableOpacity>
       </View>
     </Modal>
   );
@@ -84,6 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 10,
     backgroundColor: "#F5F5F5",
+    marginBottom: 10,
   },
   input: {
     flex: 1,
@@ -91,7 +112,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   modalAddButton: {
-    marginLeft: 10,
     backgroundColor: "#007BFF",
     paddingVertical: 10,
     paddingHorizontal: 20,

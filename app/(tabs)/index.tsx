@@ -11,16 +11,20 @@ import {
   BackHandler,
 } from "react-native";
 
+export interface IContentItem {
+  title?: string;
+  des: string;
+  tag?: string;
+}
+
 const Index: React.FC = () => {
-  const [contentItems, setContentItems] = useState<string[]>([
-    "Content 1",
-    "Content 2",
-    "Content 3",
-    "Content 4",
-    "Content 5",
-  ]);
+  const [contentItems, setContentItems] = useState<IContentItem[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [newContent, setNewContent] = useState<string>("");
+  const [newContent, setNewContent] = useState<IContentItem>({
+    title: "",
+    des: "",
+    tag: "",
+  });
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -41,15 +45,23 @@ const Index: React.FC = () => {
   }, [isModalVisible]);
 
   const handleAddContent = () => {
-    if (newContent) {
+    if (newContent.title || newContent.des || newContent.tag) {
       setContentItems([...contentItems, newContent]);
-      setNewContent("");
+      setNewContent({
+        title: "",
+        des: "",
+        tag: "",
+      });
       setIsModalVisible(false);
     }
   };
 
-  const filteredContentItems = contentItems.filter((item) =>
-    item.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredContentItems = contentItems.filter(
+    (item) =>
+      (item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ??
+        false) ||
+      (item.des?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
+      (item.tag?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
   );
 
   return (
