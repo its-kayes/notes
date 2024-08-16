@@ -70,8 +70,11 @@ const Index: React.FC = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
       <ContentList contentItems={filteredContentItems} />
+
       <AddButton onPress={() => setIsModalVisible(true)} />
+
       <AddContentModal
         isVisible={isModalVisible}
         newContent={newContent}
