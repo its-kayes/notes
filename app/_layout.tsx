@@ -33,10 +33,15 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="ContentDetail"
-          options={{ headerTitle: "Content Details" }}
+          options={{
+            headerTitle: "Your notes...",
+            animation: "slide_from_bottom",
+          }}
         />
+
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>

@@ -1,4 +1,5 @@
-import React from "react";
+import { Notes } from "@/server/apis/notes";
+import React, { useEffect } from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 interface AddButtonProps {
@@ -6,6 +7,12 @@ interface AddButtonProps {
 }
 
 const AddButton: React.FC<AddButtonProps> = ({ onPress }) => {
+  useEffect(() => {
+    Notes()
+      .then((data) => console.log(data))
+      .catch((err: Error) => console.log(err.message));
+  }, []);
+
   return (
     <TouchableOpacity style={styles.addButton} onPress={onPress}>
       <Text style={styles.addButtonText}>+</Text>
